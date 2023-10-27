@@ -25,10 +25,20 @@ function! pr#Submit() abort
     let l:gh_pr_cmd = l:gh_pr_cmd . ' -r ' . l:reviewers
   endif
 
-  l:gh_pr_cmd = l:gh_pr_cmd . ' -F "' . l:filepath . '"'
+  if exists('g:GH_pr_title_cmd')
+    let l:pr_title = systemlist(g:GH_pr_title_cmd)->join()
 
-  if tabpagebuflist()->len() > 1
+    let l:gh_pr_cmd = l:gh_pr_cmd . ' -t "' . l:pr_title . '"'
+  endif
+
+  let l:gh_pr_cmd = l:gh_pr_cmd . ' -F "' . l:filepath . '"'
+
+  if tabpagenr('$') > 1
     tabclose
+  endif
+
+  if exists('g:GH_before_create_hook')
+    call g:GH_before_create_hook()
   endif
 
   execute 'Dispatch ' . l:gh_pr_cmd
