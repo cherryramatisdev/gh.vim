@@ -21,8 +21,8 @@ function! pr#Submit() abort
 
   let l:gh_pr_cmd = '!gh pr -a @me create -B ' . l:base_branch
 
-  if l:reviewers
-    l:gh_pr_cmd = l:gh_pr_cmd . ' -r ' . l:reviewers
+  if l:reviewers != ''
+    let l:gh_pr_cmd = l:gh_pr_cmd . ' -r ' . l:reviewers
   endif
 
   l:gh_pr_cmd = l:gh_pr_cmd . ' -F "' . l:filepath . '"'
