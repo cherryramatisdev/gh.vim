@@ -35,5 +35,5 @@ function! pr#Submit() abort
 endfunction
 
 function! pr#Open() abort
-  Dispatch !gh pr view -w
+  Dispatch! gh pr view -w
 endfunction
