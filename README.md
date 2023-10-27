@@ -36,3 +36,7 @@ endfunction
 
 let g:GH_before_create_hook = function('JiraReview')
 ```
+
+## To Dos
+
+- [ ] Create help pages for the plugin details
