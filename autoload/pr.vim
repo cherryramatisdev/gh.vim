@@ -1,3 +1,12 @@
+function! s:CheckDevelopBranch()
+    let branch_exists = system('git show-ref --verify --quiet refs/heads/develop; echo $?')
+    if branch_exists == 0
+        return 1
+    else
+        return 0
+    endif
+endfunction
+
 function! s:ReturnProjectRoot() abort
   " TODO: This doesn't work on non git projects
   return system('git rev-parse --show-toplevel')->substitute('\n', '', '')
@@ -18,6 +27,10 @@ function! pr#Submit() abort
   let l:filepath = expand('%')
   let l:base_branch = 'main'
   let l:reviewers = getenv('REVIEWERS')
+
+  if s:CheckDevelopBranch()
+    let l:base_branch = 'develop'
+  endif
 
   let l:gh_pr_cmd = '!gh pr -a @me create -B ' . l:base_branch
 
